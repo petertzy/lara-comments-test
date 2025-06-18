@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>创建文章</title>
-</head>
-<body>
-    <h1>发布新文章</h1>
+@extends('layouts.app')
 
-    <form method="POST" action="{{ route('posts.store') }}">
-        @csrf
-        <label>标题：</label>
-        <input type="text" name="title"><br><br>
+@section('content')
+    <div class="container">
+        <h1>Create New Post</h1>
 
-        <label>内容：</label><br>
-        <textarea name="content" rows="5" cols="40"></textarea><br><br>
+        <form method="POST" action="{{ route('posts.store') }}">
+            @csrf
+            <label>Title:</label>
+            <input type="text" name="title"><br><br>
 
-        <button type="submit">提交</button>
-    </form>
-</body>
-</html>
+            <label>Content:</label><br>
+            <textarea name="body" rows="5" cols="40"></textarea><br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+@endsection

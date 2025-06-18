@@ -20,9 +20,11 @@ use App\Http\Controllers\CommentController;
 });*/
 
 Route::get('/', [PostController::class, 'index']);
-Route::get('/posts/{post}', [PostController::class, 'show']);
+// Route::get('/posts/{post}', [PostController::class, 'show']);
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('posts', PostController::class);

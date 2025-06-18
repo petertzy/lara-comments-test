@@ -1,22 +1,42 @@
-<h1>{{ $post->title }}</h1>
-<p>{{ $post->body }}</p>
+@extends('layouts.app')
 
-<h3>Comments:</h3>
+@section('content')
+<div class="container mt-4">
+    <!-- Post Title -->
+    <h1 class="mb-3">{{ $post->title }}</h1>
+    <p class="lead">{{ $post->body }}</p>
 
-@foreach($post->comments as $comment)
-    <div style="margin-bottom: 10px;">
-        <strong>{{ $comment->commenter->name ?? 'Anonymous' }}</strong>: {{ $comment->comment }}
+    <!-- Comments Section -->
+    <div class="mt-5">
+        <h4 class="mb-3">Comments:</h4>
+
+        @forelse($post->comments as $comment)
+            <div class="border rounded p-3 mb-3 bg-light">
+                <strong>{{ $comment->commenter->name ?? 'Anonymous' }}</strong>
+                <p class="mb-0">{{ $comment->comment }}</p>
+            </div>
+        @empty
+            <p class="text-muted">No comments yet.</p>
+        @endforelse
     </div>
-@endforeach
 
-@if(auth()->check())
-    <form method="POST" action="{{ route('comments.store') }}">
-        @csrf
-        <input type="hidden" name="commentable_encrypted_key" value="{{ $post->getEncryptedKey() }}">
-        <textarea name="message" required placeholder="Write your comment here..." rows="4" cols="50"></textarea>
-        <br>
-        <button type="submit">Post Comment</button>
-    </form>
-@else
-    <p>You must <a href="{{ route('login') }}">log in</a> to comment.</p>
-@endif
+    <!-- Comment Form -->
+    @auth
+        <div class="mt-4">
+            <h5 class="mb-3">Leave a Comment</h5>
+            <form method="POST" action="{{ route('comments.store') }}">
+                @csrf
+                <input type="hidden" name="commentable_encrypted_key" value="{{ $post->getEncryptedKey() }}">
+
+                <div class="mb-3">
+                    <textarea name="message" class="form-control" rows="4" placeholder="Write your comment here..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    @else
+        <p class="mt-4">You must <a href="{{ route('login') }}">log in</a> to comment.</p>
+    @endauth
+</div>
+@endsection

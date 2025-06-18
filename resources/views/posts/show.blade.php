@@ -12,12 +12,21 @@
 
         @forelse($post->comments as $comment)
             <div class="border rounded p-3 mb-3 bg-light">
-                <strong>{{ $comment->commenter->name ?? 'Anonymous' }}</strong>
+                <strong>
+                    @if($comment->commenter)
+                        <a href="{{ route('users.comments', $comment->commenter->id) }}">
+                            {{ $comment->commenter->name }}
+                        </a>
+                    @else
+                        Anonymous
+                    @endif
+                </strong>
                 <p class="mb-0">{{ $comment->comment }}</p>
             </div>
         @empty
             <p class="text-muted">No comments yet.</p>
         @endforelse
+
     </div>
 
     <!-- Comment Form -->

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('posts', PostController::class);
+
+// Route::get('/users/{id}/comments', [UserCommentController::class, 'index'])->name('users.comments');
+Route::get('/users/{user}/comments', [UserCommentController::class, 'showUserComments'])->name('users.comments');
